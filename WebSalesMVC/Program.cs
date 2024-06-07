@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using WebSalesMVC.Data;
 using WebSalesMVC.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 var builder = WebApplication.CreateBuilder(args);
 var a = builder.Configuration.GetConnectionString("WebSalesMVCContext");
 builder.Services.AddDbContext<WebSalesMVCContext>(options =>
@@ -22,6 +24,16 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+var enUS = new CultureInfo("en-US");
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(enUS),
+    SupportedCultures = new List<CultureInfo> { enUS },
+    SupportedUICultures = new List<CultureInfo> { enUS }
+};
+
+app.UseRequestLocalization(localizationOptions);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
