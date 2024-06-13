@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-    namespace WebSalesMVC.Models
+using System.Text.Json.Serialization;
+namespace WebSalesMVC.Models
 {
     public class Seller
     {
@@ -17,6 +18,7 @@ using System.Linq;
 
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Required(ErrorMessage = "{0} required")]
         public DateTime BirthDate { get; set; }
 
@@ -25,7 +27,9 @@ using System.Linq;
         [DisplayFormat(DataFormatString = "{0:F2}")]
         [Range(100.00, 50000.00, ErrorMessage = "{0} must be from {1} to {2}")]
         public double BaseSalary { get; set; }
+
         public Department Department { get; set; }
+        
         public int DepartmentId { get; set; }
         public ICollection<SalesRecord> SalesRecords { get; set; } = new List<SalesRecord>();
 

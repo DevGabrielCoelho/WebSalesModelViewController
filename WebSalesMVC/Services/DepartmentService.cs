@@ -1,4 +1,5 @@
-﻿using WebSalesMVC.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebSalesMVC.Data;
 using WebSalesMVC.Models;
 
 namespace WebSalesMVC.Services
@@ -12,9 +13,9 @@ namespace WebSalesMVC.Services
             _context = context;
         }
 
-        public List<Department> FindAll()
+        public async Task<List<Department>> FindAllAsync()
         {
-            return _context.Department.OrderBy(x => x.Name).ToList();
+            return await _context.Department.OrderBy(x => x.Name).ToListAsync();
         }
     }
 }

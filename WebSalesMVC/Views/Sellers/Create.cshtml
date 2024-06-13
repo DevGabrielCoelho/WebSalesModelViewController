@@ -41,11 +41,13 @@
             </div>
             <div class="form-label mt-4">
                 <label asp-for="Seller.DepartmentId" class="form-label"></label>
-                <select asp-for="Seller.DepartmentId" aps-items="@(new SelectList(Model.Departments, "Id", "Name"))" class="form-select"> 
-                    @foreach(var item in Model.Departments){
+                <select asp-for="Seller.DepartmentId" aps-items="@(new SelectList(Model.Departments))" class="form-select"> 
+                    @foreach (var item in Model.Departments)
+                    {
                         <option value="@item.Id">@item.Name</option>
                     }
                 </select>
+                <span asp-validation-for="Seller.DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-label mt-4">
                 <input type="submit" value="Create" class="btn btn-outline-success"></input>
@@ -53,7 +55,7 @@
         </form>
     </div>
 </div>
-@section Scripts{
+@section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
