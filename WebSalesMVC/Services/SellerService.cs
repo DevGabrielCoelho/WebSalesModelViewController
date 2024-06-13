@@ -29,23 +29,31 @@ namespace WebSalesMVC.Services
         }
         public async Task RemoveAsync(int id)
         {
-            var x = _context.Seller.Find(id);
-            _context.Seller.Remove(x);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var x = _context.Seller.Find(id);
+                _context.Seller.Remove(x);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new IntegrityException(ex.Message);
+            }
         }
 
-        public async Task UpdateAsync(Seller seller) 
+        public async Task UpdateAsync(Seller seller)
         {
             bool hasAny = await _context.Seller.AnyAsync(x => x.Id == seller.Id);
             if (!hasAny)
             {
                 throw new NotFoundException("Id not found");
             }
-            try {
+            try
+            {
                 _context.Update(seller);
                 await _context.SaveChangesAsync();
             }
-            catch (DbConcurrencyException ex) 
+            catch (DbConcurrencyException ex)
             {
                 throw new DbConcurrencyException(ex.Message);
             }
